@@ -31,8 +31,10 @@ public class Client extends Thread {
         int hauteurReste = h%10;
         for (int i = 0; i<height; i++) {
             for (int j = 0; j < width; j++) {
+                ServiceNoeud sn = sd.getNoeud();
+                /* sn.calculerImage(i, coteCarre, longueurReste, hauteurReste);
                 Image image = scene.compute(x0 + l*j/width, y0 + i * l / height, l/width, h/height);
-                disp.setImage(image, x0 + l*j/width, y0 + i * l /height);
+                disp.setImage(image, x0 + l*j/width, y0 + i * l /height); */
             }
         }
 
