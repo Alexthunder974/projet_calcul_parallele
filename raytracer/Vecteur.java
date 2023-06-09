@@ -1,3 +1,5 @@
+package raytracer;
+
 import java.io.*;
 
 public class Vecteur implements Serializable{

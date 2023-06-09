@@ -1,6 +1,8 @@
-import java.awt.Color;
+package raytracer;
 
-/** Classe permettant la représentation d'une sphère 
+
+
+/** Classe permettant la représentation d'une sphère
  */
 public class Sphere extends Primitive {
 

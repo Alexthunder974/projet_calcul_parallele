@@ -1,3 +1,5 @@
+package rmi;
+
 import java.rmi.AccessException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;

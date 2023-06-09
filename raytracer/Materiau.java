@@ -1,3 +1,4 @@
+package raytracer;
 
 import java.io.*;
 /** Classe définissant les caractéristiques d'un matériau. Ces caractéristiques

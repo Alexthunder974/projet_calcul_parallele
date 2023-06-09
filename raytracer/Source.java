@@ -1,3 +1,4 @@
+package raytracer;
 
 import java.io.*;
 /** Classe permettant la représentation d'une source ponctuelle. Une source
