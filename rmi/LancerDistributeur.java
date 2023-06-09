@@ -14,7 +14,7 @@ public class LancerDistributeur {
 
         try {
             if (args.length != 2) {
-                System.out.println("nombre d'arguments incorrect");
+                System.out.println("nombre d'arguments incorrect, utilisation : java LancerDistributeur <adresse> <port>");
                 System.out.println("utilisation des valeurs par défaut : ");
                 System.out.println("\t- adresse annuaire : 127.0.0.1");
                 System.out.println("\t- port annuaire : 1099");
