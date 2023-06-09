@@ -1,9 +1,19 @@
 import java.time.Instant;
 import java.time.Duration;
-
+import rmi.Client;
+import rmi.ServiceDistributeur;
 import raytracer.Disp;
 import raytracer.Scene;
 import raytracer.Image;
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.RemoteException;
+import java.rmi.UnknownHostException;
+import java.rmi.ConnectException;
+import java.rmi.NotBoundException;
+import java.rmi.server.ServerNotActiveException;
+
 
 public class LancerRaytracer {
 
@@ -49,20 +59,37 @@ public class LancerRaytracer {
                            +"\n - Taille "+ largeur + "x" + hauteur);
 
         // Affichage de l'image calculée
+        try {
+            // On récupère l'adresse et le port
+            String adresse = args[0];
+            int port = 1500;
+            if(args.length > 1) port = Integer.parseInt(args[1]);
+            // On récupère le registre distant
+            Registry reg = LocateRegistry.getRegistry(adresse, port);
+            // On récupère le service distant
+            ServiceDistributeur sd = (ServiceDistributeur) reg.lookup("distributeur");
 
-        int height = 10;
-        int width = 10;
-        for (int i = 0; i<height; i++) {
-            for (int j = 0; j < width; j++) {
-                Thread t =  new Thread(){
-                    public void run() {
-                        Image image = scene.compute(x0 + l*j/width, y0 + i * l / height, l/width, h/height);
-                        disp.setImage(image, x0 + l*j/width, y0 + i * l /height);
-                    };
-                };
-                t.start();
+            int coteCarre = 10;
+            for (int i = 0; i<coteCarre; i++) {
+                for (int j = 0; j < coteCarre; j++) {
+                    Client c =  new Client(disp, sd, x0 + l*j / coteCarre, y0 + i * l / coteCarre, l / coteCarre, h/ coteCarre);
+                    c.start();
+                }
             }
+        // On gère les exceptions
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("Une IP ou un hôte doit être spécifié en argument");
+        } catch (NotBoundException e) {
+            System.out.println("Le service distant appelé est introuvable");
+        } catch (UnknownHostException e) {
+            System.out.println("Serveur inexistant ou introuvable");
+        } catch (ConnectException e) {
+            System.out.println("Impossible de se connecter à l’annuaire rmiregistry distant");
+        } catch (RemoteException e) {
+            System.out.println("Impossible de se connecter au serveur distant");
         }
+
+        
 
         Instant fin = Instant.now();
         long duree = Duration.between(debut, fin).toMillis();
