@@ -2,9 +2,11 @@ package rmi;
 
 import java.rmi.RemoteException;
 import raytracer.Image;
+import raytracer.Scene;
 import raytracer.Disp;
 
 public class Client extends Thread {
+    Scene scene;
     private ServiceDistributeur sd;
     private int x0, y0, l, h;
     private Disp disp;
@@ -21,7 +23,7 @@ public class Client extends Thread {
 
     } */
 
-    public Client(Disp disp, ServiceDistributeur sd, int x0, int y0, int l, int h){
+    public Client(Scene scene, Disp disp, ServiceDistributeur sd, int x0, int y0, int l, int h){
         this.sd = sd;
         this.x0 = x0;
         this.y0 = y0;
@@ -49,7 +51,7 @@ public class Client extends Thread {
         } */
         try {
             ServiceNoeud sn = sd.getNoeud();
-            Image image = sn.calculerImage(x0, y0, l, h);
+            Image image = sn.calculerImage(scene, x0, y0, l, h);
             disp.setImage(image, x0, y0);
         } catch (RemoteException e) {
             // TODO Auto-generated catch block

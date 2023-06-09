@@ -72,7 +72,7 @@ public class LancerRaytracer {
             int coteCarre = 10;
             for (int i = 0; i<coteCarre; i++) {
                 for (int j = 0; j < coteCarre; j++) {
-                    Client c =  new Client(disp, sd, x0 + l*j / coteCarre, y0 + i * l / coteCarre, l / coteCarre, h/ coteCarre);
+                    Client c =  new Client(scene, disp, sd, x0 + l*j / coteCarre, y0 + i * l / coteCarre, l / coteCarre, h/ coteCarre);
                     c.start();
                 }
             }
