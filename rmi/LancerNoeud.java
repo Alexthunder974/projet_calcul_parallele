@@ -7,7 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class LancerNoeud {
 
-    public void main(String[] args) {
+    public static void main(String[] args) {
         Registry reg = null;
         ServiceDistributeur distributeur = null;
 
