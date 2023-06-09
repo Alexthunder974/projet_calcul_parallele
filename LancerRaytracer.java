@@ -50,12 +50,17 @@ public class LancerRaytracer {
 
         // Affichage de l'image calculée
 
-        int height = 40;
-        int width = 40;
+        int height = 10;
+        int width = 10;
         for (int i = 0; i<height; i++) {
             for (int j = 0; j < width; j++) {
-                Image image = scene.compute(x0 + l*j/width, y0 + i * l / height, l/width, h/height);
-                disp.setImage(image, x0 + l*j/width, y0 + i * l /height);
+                Thread t =  new Thread(){
+                    public void run() {
+                        Image image = scene.compute(x0 + l*j/width, y0 + i * l / height, l/width, h/height);
+                        disp.setImage(image, x0 + l*j/width, y0 + i * l /height);
+                    };
+                };
+                t.start();
             }
         }
 

@@ -22,7 +22,7 @@ public class Distributeur implements ServiceDistributeur {
     @Override
     public ServiceNoeud getNoeud() throws RemoteException {
         ServiceNoeud n = noeuds.get(noeudCourant);
-        noeudCourant++;
+        noeudCourant = (noeudCourant == (noeuds.size() - 1)) ? 0 : noeudCourant+1;
         return n;
     }
 
