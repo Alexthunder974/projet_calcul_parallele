@@ -14,5 +14,6 @@ public class LancerDistributeur {
 
         Registry rg = LocateRegistry.createRegistry(1500);
         rg.rebind("distributeur", serviceDistributeur);
+        System.out.println("Service Distributeur lancé...");
     }
 }
