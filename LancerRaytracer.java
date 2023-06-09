@@ -61,8 +61,8 @@ public class LancerRaytracer {
         // Affichage de l'image calculée
         try {
             // On récupère l'adresse et le port
-            String adresse = args[0];
-            int port = 1500;
+            String adresse = args[0] == null ? "127.0.0.1" : args[0] ;
+            int port = 1099;
             if(args.length > 1) port = Integer.parseInt(args[1]);
             // On récupère le registre distant
             Registry reg = LocateRegistry.getRegistry(adresse, port);
