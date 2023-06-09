@@ -1,5 +1,3 @@
-package rmi;
-
 import raytracer.Image;
 import raytracer.Scene;
 

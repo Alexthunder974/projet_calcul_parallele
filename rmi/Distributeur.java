@@ -1,5 +1,3 @@
-package rmi;
-
 import java.rmi.RemoteException;
 import java.rmi.server.RemoteServer;
 import java.rmi.server.ServerNotActiveException;
