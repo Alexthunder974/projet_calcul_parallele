@@ -1,5 +1,4 @@
-import raytracer.Image;
-import raytracer.Scene;
+
 
 public interface ServiceNoeud {
 

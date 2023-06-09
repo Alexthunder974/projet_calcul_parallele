@@ -1,6 +1,3 @@
-import raytracer.Image;
-import raytracer.Scene;
-
 import java.rmi.Remote;
 
 public class Noeud implements ServiceNoeud, Remote {
