@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Distributeur implements ServiceDistributeur {
 
-    private static final boolean DEBUG = false;
+    private static final boolean DEBUG = true;
     private List<ServiceNoeud> noeuds = new ArrayList<>();
     private int noeudCourant = 0;
 
@@ -36,9 +36,17 @@ public class Distributeur implements ServiceDistributeur {
 
     @Override
     public ServiceNoeud getNoeud() throws RemoteException {
+        if (DEBUG) {
+            System.out.println("Récupération du noeud " + noeudCourant);
+        }
         ServiceNoeud n = this.noeuds.get(noeudCourant);
         noeudCourant = (noeudCourant == (noeuds.size() - 1)) ? 0 : noeudCourant+1;
         return n;
+    }
+
+    @Override
+    public int getNbNoeuds() {
+        return this.noeuds.size();
     }
 
 

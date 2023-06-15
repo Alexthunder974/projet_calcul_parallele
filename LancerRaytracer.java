@@ -22,7 +22,7 @@ public class LancerRaytracer {
     public static void main(String args[]){
 
         // Le fichier de description de la scène si pas fournie
-        String fichier_description="simple.txt";
+        String fichier_description="/projet_calcul_parallele/simple.txt";
 
         // largeur et hauteur par défaut de l'image à reconstruire
         int largeur = 512, hauteur = 512;
@@ -61,21 +61,22 @@ public class LancerRaytracer {
         // Affichage de l'image calculée
         try {
             // On récupère l'adresse et le port
-            String adresse = args[0] == null ? "127.0.0.1" : args[0] ;
+            String adresse = args[3] == null ? "127.0.0.1" : args[3] ;
             int port = 1099;
-            if(args.length > 1) port = Integer.parseInt(args[1]);
+            if(args.length > 1) port = Integer.parseInt(args[4]);
             // On récupère le registre distant
             Registry reg = LocateRegistry.getRegistry(adresse, port);
             // On récupère le service distant
             ServiceDistributeur sd = (ServiceDistributeur) reg.lookup("distributeur");
 
-            int coteCarre = 10;
-            for (int i = 0; i<coteCarre; i++) {
-                for (int j = 0; j < coteCarre; j++) {
-                    Client c =  new Client(scene, disp, sd, x0 + l*j / coteCarre, y0 + i * l / coteCarre, l / coteCarre, h/ coteCarre);
-                    c.start();
-                }
+            int nbNoeuds = sd.getNbNoeuds();
+            int pas = l / nbNoeuds;
+            for (int i = 0; i < nbNoeuds; i++) {
+                System.out.println("coordonnées : " + i * pas + " " + y0 + " " + (x0 + (i + 1) * pas) + " " + h);
+                Client c =  new Client(scene, disp, sd, i*pas , y0 ,x0 + (i+1)*pas, h );
+                c.start();
             }
+
         // On gère les exceptions
         } catch (ArrayIndexOutOfBoundsException e) {
             System.out.println("Une IP ou un hôte doit être spécifié en argument");

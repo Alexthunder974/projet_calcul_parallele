@@ -9,4 +9,6 @@ public interface ServiceDistributeur extends Remote {
 
     void retirerNoeud(ServiceNoeud noeud) throws RemoteException;
     ServiceNoeud getNoeud() throws RemoteException;
+
+    int getNbNoeuds() throws RemoteException;
 }
