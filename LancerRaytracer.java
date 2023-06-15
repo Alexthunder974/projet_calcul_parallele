@@ -55,8 +55,7 @@ public class LancerRaytracer {
                 
         // Chronométrage du temps de calcul
         Instant debut = Instant.now();
-        System.out.println("Calcul de l'image :\n - Coordonnées : "+x0+","+y0
-                           +"\n - Taille "+ largeur + "x" + hauteur);
+        System.out.println("Calcul de l'image :\n - Coordonnées : "+x0+","+y0+"\n - Taille "+ largeur + "x" + hauteur);
 
         // Affichage de l'image calculée
         try {
@@ -70,12 +69,15 @@ public class LancerRaytracer {
             ServiceDistributeur sd = (ServiceDistributeur) reg.lookup("distributeur");
 
             int nbNoeuds = sd.getNbNoeuds();
+            System.out.println("Nombre de noeuds utilisés : " + nbNoeuds);
             int pas = l / nbNoeuds;
             for (int i = 0; i < nbNoeuds; i++) {
-                System.out.println("coordonnées : " + i * pas + " " + y0 + " " + (x0 + (i + 1) * pas) + " " + h);
-                Client c =  new Client(scene, disp, sd, i*pas , y0 ,x0 + (i+1)*pas, h );
+                Client c =  new Client(scene, disp, sd, i*pas , y0 ,pas, h);
                 c.start();
             }
+            // on lance le client pour dessiner la petite bande qui peut manquer à la fin
+            Client c =  new Client(scene, disp, sd, nbNoeuds*pas, 0 ,l%pas, 512);
+            c.start();
 
         // On gère les exceptions
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -90,11 +92,10 @@ public class LancerRaytracer {
             System.out.println("Impossible de se connecter au serveur distant");
         }
 
-        
 
         Instant fin = Instant.now();
         long duree = Duration.between(debut, fin).toMillis();
 
-        System.out.println("Image calculée en :"+duree+" ms");
+        System.out.println("Image calculée en : "+duree+" ms");
     }	
 }

@@ -36,28 +36,26 @@ public class Client extends Thread {
     
     @Override
     public void run() {
-        /* int coteCarre = 10;
-        int longueurReste = l%10;
-        int hauteurReste = h%10;
-        for (int i = 0; i<coteCarre; i++) {
-            for (int j = 0; j < coteCarre; j++) {
-                try {
-                    ServiceNoeud sn = sd.getNoeud();
-                    Image image = sn.calculerImage(x0 + l*j / coteCarre, y0 + i * l / coteCarre, l / coteCarre, h/ coteCarre);
-                    disp.setImage(image, x0 + l*j/coteCarre, y0 + i * l /coteCarre);
-                } catch (RemoteException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }       
+        ServiceNoeud sn = null;
+        while (true) {
+            try {
+                if (!(sd.getNbNoeuds() > 0)) break;
+            } catch (RemoteException e) {
+                throw new RuntimeException(e);
             }
-        } */
-        try {
-            ServiceNoeud sn = sd.getNoeud();
-            Image image = sn.calculerImage(this.scene, this.x0, this.y0, this.l, this.h);
-            disp.setImage(image, x0, y0);
-        } catch (RemoteException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }  
+            try {
+                sn = sd.getNoeud();
+                Image image = sn.calculerImage(this.scene, this.x0, this.y0, this.l, this.h);
+                disp.setImage(image, x0, y0);
+                break;
+            } catch (RemoteException e) {
+                // retirer le noeud de la liste
+                try {
+                    sd.retirerNoeud(sn);
+                } catch (RemoteException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        }
     }
 }
