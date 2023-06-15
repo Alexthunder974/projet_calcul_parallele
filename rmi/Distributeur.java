@@ -39,7 +39,16 @@ public class Distributeur implements ServiceDistributeur {
         if (DEBUG) {
             System.out.println("Récupération du noeud " + noeudCourant);
         }
-        ServiceNoeud n = this.noeuds.get(noeudCourant);
+        if (noeuds.size() == 0) {
+            return null;
+        }
+        ServiceNoeud n;
+        try {
+            n = this.noeuds.get(noeudCourant);
+        } catch (IndexOutOfBoundsException e) {
+            noeudCourant = 0;
+            n = this.noeuds.get(noeudCourant);
+        }
         noeudCourant = (noeudCourant == (noeuds.size() - 1)) ? 0 : noeudCourant+1;
         return n;
     }

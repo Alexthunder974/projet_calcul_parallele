@@ -1,10 +1,7 @@
-import java.time.Instant;
-import java.time.Duration;
 import rmi.Client;
 import rmi.ServiceDistributeur;
 import raytracer.Disp;
 import raytracer.Scene;
-import raytracer.Image;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -12,7 +9,6 @@ import java.rmi.RemoteException;
 import java.rmi.UnknownHostException;
 import java.rmi.ConnectException;
 import java.rmi.NotBoundException;
-import java.rmi.server.ServerNotActiveException;
 
 
 public class LancerRaytracer {
@@ -54,8 +50,7 @@ public class LancerRaytracer {
         int l = largeur, h = hauteur;
                 
         // Chronométrage du temps de calcul
-        Instant debut = Instant.now();
-        System.out.println("Calcul de l'image :\n - Coordonnées : "+x0+","+y0+"\n - Taille "+ largeur + "x" + hauteur);
+        System.out.println("Calcul de l'image :\n - Taille "+ largeur + "x" + hauteur);
 
         // Affichage de l'image calculée
         try {
@@ -69,15 +64,20 @@ public class LancerRaytracer {
             ServiceDistributeur sd = (ServiceDistributeur) reg.lookup("distributeur");
 
             int nbNoeuds = sd.getNbNoeuds();
-            System.out.println("Nombre de noeuds utilisés : " + nbNoeuds);
+            if (nbNoeuds <= 0) {
+                System.out.println("erreur : aucun noeud disponible");
+                System.exit(1);
+            }
             int pas = l / nbNoeuds;
             for (int i = 0; i < nbNoeuds; i++) {
                 Client c =  new Client(scene, disp, sd, i*pas , y0 ,pas, h);
                 c.start();
             }
-            // on lance le client pour dessiner la petite bande qui peut manquer à la fin
-            Client c =  new Client(scene, disp, sd, nbNoeuds*pas, 0 ,l%pas, 512);
-            c.start();
+            if (l % pas != 0) {
+                // on lance le client pour dessiner la petite bande qui peut manquer à la fin
+                Client c = new Client(scene, disp, sd, nbNoeuds * pas, 0, l % pas, 512);
+                c.start();
+            }
 
         // On gère les exceptions
         } catch (ArrayIndexOutOfBoundsException e) {
@@ -93,9 +93,5 @@ public class LancerRaytracer {
         }
 
 
-        Instant fin = Instant.now();
-        long duree = Duration.between(debut, fin).toMillis();
-
-        System.out.println("Image calculée en : "+duree+" ms");
-    }	
+    }
 }
