@@ -48,7 +48,7 @@ public class LancerNoeud {
         try {
             distributeur.enregistrerNoeud((ServiceNoeud) UnicastRemoteObject.exportObject(noeud, 0));
         } catch (RemoteException e) {
-            System.out.println("erreur : le registre distant n'est pas accessible (vérifier l'adresse et le port de l'annuaire");
+            System.out.println("erreur : le registre distant n'est pas accessible (vérifier l'adresse et le port de l'annuaire)");
             System.exit(1);
         }
 

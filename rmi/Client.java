@@ -1,5 +1,9 @@
 package rmi;
 
+import raytracer.Disp;
+import raytracer.Image;
+import raytracer.Scene;
+
 import java.rmi.RemoteException;
 
 public class Client extends Thread {

@@ -49,7 +49,7 @@ public class LancerDistributeur {
             System.out.println("erreur : accès interdit");
             System.exit(1);
         } catch (RemoteException e) {
-            System.out.println("erreur : le registre distant n'est pas accessible (vérifier l'adresse et le port de l'annuaire");
+            System.out.println("erreur : le registre distant n'est pas accessible (vérifier l'adresse et le port de l'annuaire)");
             System.exit(1);
         }
     }
