@@ -35,7 +35,7 @@ public class Distributeur implements ServiceDistributeur {
     }
 
     @Override
-    public ServiceNoeud getNoeud() throws RemoteException {
+    public synchronized ServiceNoeud getNoeud() throws RemoteException {
         if (DEBUG) {
             System.out.println("Récupération du noeud " + noeudCourant);
         }

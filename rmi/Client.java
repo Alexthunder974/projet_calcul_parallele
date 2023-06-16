@@ -29,17 +29,23 @@ public class Client extends Thread {
         ServiceNoeud sn = null;
         while (true) {
             try {
+                Instant debut = Instant.now();
                 sn = sd.getNoeud();
+                Instant fin = Instant.now();
+                long duree = Duration.between(debut, fin).toMillis();
+                System.out.println("get noeud en : "+duree+" ms");
                 if (sn == null) {
                     System.out.println("erreur : aucun noeud disponible");
                     System.exit(1);
                 }
-                Instant debut = Instant.now();
+
+
+                Instant debut_image = Instant.now();
                 Image image = sn.calculerImage(this.scene, this.x0, this.y0, this.l, this.h);
-                Instant fin = Instant.now();
+                Instant fin_image = Instant.now();
                 if (image != null) {
-                    long duree = Duration.between(debut, fin).toMillis();
-                    System.out.println("portion d'image calculée en : "+duree+" ms");
+                    long duree_image = Duration.between(debut_image, fin_image).toMillis();
+                    System.out.println("portion d'image calculée en : "+duree_image+" ms");
                     disp.setImage(image, x0, y0);
                     break;
                 }
